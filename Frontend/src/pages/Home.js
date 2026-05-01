@@ -1,6 +1,6 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 
 export default function Home() {
   const navigate = useNavigate();
@@ -22,8 +22,7 @@ export default function Home() {
 
   // 🔥 Carousel State
   const [index, setIndex] = useState(0);
-
-  const features = [
+  const features = useMemo(() => [
     {
       title: "Leaf Detection",
       desc: "Detect whether the uploaded image is a leaf or not.",
@@ -40,7 +39,7 @@ export default function Home() {
       title: "Smart Suggestions",
       desc: "Get fertilizers and spray recommendations instantly.",
     },
-  ];
+  ],[]);
 
   // 🔄 Auto slide
   useEffect(() => {
@@ -48,7 +47,7 @@ export default function Home() {
       setIndex((prev) => (prev + 1) % features.length);
     }, 3500);
     return () => clearInterval(interval);
-  }, []);
+  }, [features]);
 
   return (
     <div className="w-full">
@@ -99,82 +98,82 @@ export default function Home() {
 
       {/* 🌿 PROJECT INTRO */}
       <motion.div
-  className="py-16 px-6 bg-gradient-to-b from-white to-green-50"
-  initial="hidden"
-  whileInView="show"
-  viewport={{ once: true }}
->
-  <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-center">
+        className="py-16 px-6 bg-gradient-to-b from-white to-green-50"
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true }}
+      >
+        <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-center">
 
-    {/* LEFT CONTENT */}
-    <motion.div className="relative max-w-lg">
+          {/* LEFT CONTENT */}
+          <motion.div className="relative max-w-lg">
 
-      {/* 🌿 Background Shape */}
-      <div className="absolute -top-10 -left-10 w-72 h-72 bg-green-100 rounded-full blur-3xl opacity-40"></div>
+            {/* 🌿 Background Shape */}
+            <div className="absolute -top-10 -left-10 w-72 h-72 bg-green-100 rounded-full blur-3xl opacity-40"></div>
 
-      <div className="relative">
-        <motion.h4
-          className="text-green-600 font-medium tracking-wide text-sm"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-        >
-          ABOUT PROJECT
-        </motion.h4>
+            <div className="relative">
+              <motion.h4
+                className="text-green-600 font-medium tracking-wide text-sm"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+              >
+                ABOUT PROJECT
+              </motion.h4>
 
-        <motion.h2
-          className="text-4xl font-semibold text-gray-900 mt-2 leading-snug"
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
-        >
-          Smart Agriculture with <span className="text-green-600">AI</span>
-        </motion.h2>
+              <motion.h2
+                className="text-4xl font-semibold text-gray-900 mt-2 leading-snug"
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2 }}
+              >
+                Smart Agriculture with <span className="text-green-600">AI</span>
+              </motion.h2>
 
-        <motion.p
-          className="text-gray-600 mt-4 leading-relaxed text-lg"
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4 }}
-        >
-          AgriLeafNet helps farmers detect potato leaf diseases using deep learning.
-          It analyzes leaf images to identify disease type and provides practical
-          recommendations like fertilizers and sprays.
-        </motion.p>
-      </div>
+              <motion.p
+                className="text-gray-600 mt-4 leading-relaxed text-lg"
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4 }}
+              >
+                AgriLeafNet helps farmers detect potato leaf diseases using deep learning.
+                It analyzes leaf images to identify disease type and provides practical
+                recommendations like fertilizers and sprays.
+              </motion.p>
+            </div>
 
-    </motion.div>
+          </motion.div>
 
-    {/* RIGHT IMAGES (RESTORED ✅) */}
-    <motion.div
-      initial={{ opacity: 0, x: 60 }}
-      whileInView={{ opacity: 1, x: 0 }}
-      transition={{ duration: 0.9 }}
-      className="relative flex justify-center items-center"
-    >
+          {/* RIGHT IMAGES (RESTORED ✅) */}
+          <motion.div
+            initial={{ opacity: 0, x: 60 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.9 }}
+            className="relative flex justify-center items-center"
+          >
 
-      {/* 🌿 Background Glow */}
-      <div className="absolute w-[460px] h-[460px] bg-green-100 rounded-full blur-2xl opacity-40"></div>
+            {/* 🌿 Background Glow */}
+            <div className="absolute w-[460px] h-[460px] bg-green-100 rounded-full blur-2xl opacity-40"></div>
 
-      {/* BACK IMAGE */}
-      <motion.img
-        src="https://media.istockphoto.com/id/2229924133/photo/sugar-beet-agricultural-field.webp?a=1&b=1&s=612x612&w=0&k=20&c=_7qrE8qN17HGaU9O-hY2MEhJUBUaIEaaSvdg4xGzRZY="
-        className="w-[460px] h-[320px] object-cover rounded-2xl shadow-lg"
-        initial={{ opacity: 0, scale: 0.9 }}
-        whileInView={{ opacity: 1, scale: 1 }}
-      />
+            {/* BACK IMAGE */}
+            <motion.img
+              src="https://media.istockphoto.com/id/2229924133/photo/sugar-beet-agricultural-field.webp?a=1&b=1&s=612x612&w=0&k=20&c=_7qrE8qN17HGaU9O-hY2MEhJUBUaIEaaSvdg4xGzRZY="
+              className="w-[460px] h-[320px] object-cover rounded-2xl shadow-lg"
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+            />
 
-      {/* FRONT IMAGE */}
-      <motion.img
-        src="https://static.vecteezy.com/system/resources/thumbnails/036/047/553/small_2x/ai-generated-environmental-stewardship-a-tree-being-planted-to-contribute-to-climate-change-mitigation-ai-generated-photo.jpg"
-        className="w-[340px] h-[220px] object-cover rounded-2xl shadow-xl absolute top-20 -left-16 border-4 border-white rotate-[-3deg]"
-        initial={{ opacity: 0, scale: 0.8 }}
-        whileInView={{ opacity: 1, scale: 1 }}
-      />
+            {/* FRONT IMAGE */}
+            <motion.img
+              src="https://static.vecteezy.com/system/resources/thumbnails/036/047/553/small_2x/ai-generated-environmental-stewardship-a-tree-being-planted-to-contribute-to-climate-change-mitigation-ai-generated-photo.jpg"
+              className="w-[340px] h-[220px] object-cover rounded-2xl shadow-xl absolute top-20 -left-16 border-4 border-white rotate-[-3deg]"
+              initial={{ opacity: 0, scale: 0.8 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+            />
 
-    </motion.div>
+          </motion.div>
 
-  </div>
-</motion.div>
+        </div>
+      </motion.div>
       {/* 🌿 FEATURES CAROUSEL */}
       <div
         className="py-16 px-6 text-center text-white bg-cover bg-center"
@@ -229,9 +228,8 @@ export default function Home() {
                   <div
                     key={i}
                     onClick={() => setIndex(i)}
-                    className={`w-3 h-3 rounded-full cursor-pointer ${
-                      i === index ? "bg-green-400" : "bg-white/50"
-                    }`}
+                    className={`w-3 h-3 rounded-full cursor-pointer ${i === index ? "bg-green-400" : "bg-white/50"
+                      }`}
                   />
                 ))}
               </div>

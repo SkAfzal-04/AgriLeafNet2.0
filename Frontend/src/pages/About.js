@@ -36,7 +36,9 @@ export default function About() {
         <motion.div className="bg-white p-8 rounded-2xl shadow-xl text-center" variants={section}>
           <img
             src="/logo.png"
+            alt="Logo"
             className="w-20 h-20 mx-auto mb-4 rounded-full shadow"
+
           />
           <h1 className="text-4xl font-bold text-green-800">
             About AgriLeafNet

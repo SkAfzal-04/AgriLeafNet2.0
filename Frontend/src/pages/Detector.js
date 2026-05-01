@@ -1,10 +1,13 @@
-import { useState, useRef, useEffect } from "react";
+import {   
+  useState,
+  useRef,
+  useEffect,
+  useCallback, } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import {
   Upload,
   Camera,
-  Leaf,
   ShieldCheck,
   Activity,
   Languages,
@@ -56,7 +59,7 @@ export default function Detector() {
       navigate("/login");
     }
   }, 200);
-}, []);
+}, [navigate]);
 
   // =========================
   // 🌍 UI TEXT
@@ -204,29 +207,29 @@ export default function Detector() {
   // =========================
   // 💊 FETCH MEDICINES
   // =========================
-  const fetchMedicines = async (disease) => {
-    if (isHealthy(result)) return;
+ const fetchMedicines = useCallback(async (disease) => {
+  if (isHealthy(result)) return;
 
-    try {
-      const res = await axios.get(
-        `${BASE_URL}/medicines`,
-        {
-          params: {
-            disease,
-            lang,
-          },
-        }
-      );
+  try {
+    const res = await axios.get(
+      `${BASE_URL}/medicines`,
+      {
+        params: {
+          disease,
+          lang,
+        },
+      }
+    );
 
-      setResult((prev) => ({
-        ...prev,
-        medicines: res.data.medicines || [],
-        warning: res.data.warning || null,
-      }));
-    } catch (err) {
-      console.error(err);
-    }
-  };
+    setResult((prev) => ({
+      ...prev,
+      medicines: res.data.medicines || [],
+      warning: res.data.warning || null,
+    }));
+  } catch (err) {
+    console.error(err);
+  }
+}, [lang, result]);
 
   // =========================
   // 🌍 LANGUAGE CHANGE
@@ -238,7 +241,7 @@ export default function Detector() {
     ) {
       fetchMedicines(result.disease_name);
     }
-  }, [lang]);
+  }, [lang,fetchMedicines,result]);
 
   // =========================
   // 🔍 PREDICT
