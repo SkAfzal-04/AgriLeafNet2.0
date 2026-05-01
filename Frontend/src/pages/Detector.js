@@ -1,8 +1,9 @@
-import {   
+import {
   useState,
   useRef,
   useEffect,
-  useCallback, } from "react";
+  useCallback,
+} from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import {
@@ -18,15 +19,30 @@ import {
   translateDisease,
   translateType,
 } from "../utils/disease_translator";
-const BASE_URL =  process.env.REACT_APP_API_URL;
+const BASE_URL = process.env.REACT_APP_API_URL;
 
 export default function Detector() {
   const [file, setFile] = useState(null);
   const [preview, setPreview] = useState(null);
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [lang, setLang] = useState("en");
+  // =========================
+  // 🌍 LANGUAGE STATE
+  // =========================
+  const [lang, setLang] = useState(
+    localStorage.getItem("lang") || "en"
+  );
 
+  // =========================
+  // 💾 SAVE LANGUAGE
+  // =========================
+  useEffect(() => {
+    localStorage.setItem("lang", lang);
+    // Notify all components instantly
+    window.dispatchEvent(
+      new Event("languageChanged")
+    );
+  }, [lang]);
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
 
@@ -36,7 +52,7 @@ export default function Detector() {
   // =========================
   // 🌿 HEALTH CHECK
   // =========================
-  
+
   const isHealthy = (res) => {
     if (!res) return false;
 
@@ -49,17 +65,17 @@ export default function Detector() {
     );
   };
 
-    useEffect(() => {
-  setTimeout(() => {
-    const user = localStorage.getItem("user_id");
- 
-    console.log("USER IN DETECTOR:", user); // debug
- 
-    if (!user) {
-      navigate("/login");
-    }
-  }, 200);
-}, [navigate]);
+  useEffect(() => {
+    setTimeout(() => {
+      const user = localStorage.getItem("user_id");
+
+      console.log("USER IN DETECTOR:", user); // debug
+
+      if (!user) {
+        navigate("/login");
+      }
+    }, 200);
+  }, [navigate]);
 
   // =========================
   // 🌍 UI TEXT
@@ -70,6 +86,7 @@ export default function Detector() {
       subtitle:
         "AI Powered Potato Leaf Disease Detection System",
       upload: "Click to upload a potato leaf image",
+      supported: "Supported",
       analyze: "Analyze Leaf",
       camera: "Capture using camera",
       disease: "Disease",
@@ -84,7 +101,9 @@ export default function Detector() {
 
     bn: {
       title: "এগ্রিলিফনেট",
+      subtitle: "এআই চালিত আলুর পাতার রোগ শনাক্তকরণ সিস্টেম",
       upload: "ছবি আপলোড করুন",
+      supported: "সমর্থিত",
       analyze: "বিশ্লেষণ করুন",
       camera: "ক্যামেরা",
       disease: "রোগ",
@@ -97,7 +116,9 @@ export default function Detector() {
 
     hi: {
       title: "एग्रीलीफनेट",
+      subtitle: "एआई संचालित आलू पत्ती रोग पहचान प्रणाली",
       upload: "छवि अपलोड करें",
+      supported: "समर्थित",
       analyze: "विश्लेषण करें",
       camera: "कैमरा",
       disease: "रोग",
@@ -110,7 +131,9 @@ export default function Detector() {
 
     ta: {
       title: "அக்ரிலீஃப்நெட்",
+      subtitle: "ஏஐ இயக்கும் உருளைக்கிழங்கு இலை நோய் கண்டறிதல் அமைப்பு",
       upload: "படத்தை பதிவேற்றவும்",
+      supported: "ஆதரிக்கப்பட்டது",
       analyze: "பரிசோதிக்கவும்",
       camera: "கேமரா",
       disease: "நோய்",
@@ -123,7 +146,9 @@ export default function Detector() {
 
     te: {
       title: "అగ్రిలీఫ్‌నెట్",
+      subtitle: "ఏఐ ఆధారిత బంగాళాదుంప ఆకుల వ్యాధి గుర్తింపు వ్యవస్థ",
       upload: "చిత్రాన్ని అప్లోడ్ చేయండి",
+      supported: "మద్దతు ఇవ్వబడింది",
       analyze: "విశ్లేషించండి",
       camera: "కెమెరా",
       disease: "వ్యాధి",
@@ -207,29 +232,29 @@ export default function Detector() {
   // =========================
   // 💊 FETCH MEDICINES
   // =========================
- const fetchMedicines = useCallback(async (disease) => {
-  if (isHealthy(result)) return;
+  const fetchMedicines = useCallback(async (disease) => {
+    if (isHealthy(result)) return;
 
-  try {
-    const res = await axios.get(
-      `${BASE_URL}/medicines`,
-      {
-        params: {
-          disease,
-          lang,
-        },
-      }
-    );
+    try {
+      const res = await axios.get(
+        `${BASE_URL}/medicines`,
+        {
+          params: {
+            disease,
+            lang,
+          },
+        }
+      );
 
-    setResult((prev) => ({
-      ...prev,
-      medicines: res.data.medicines || [],
-      warning: res.data.warning || null,
-    }));
-  } catch (err) {
-    console.error(err);
-  }
-}, [lang, result]);
+      setResult((prev) => ({
+        ...prev,
+        medicines: res.data.medicines || [],
+        warning: res.data.warning || null,
+      }));
+    } catch (err) {
+      console.error(err);
+    }
+  }, [lang, result]);
 
   // =========================
   // 🌍 LANGUAGE CHANGE
@@ -241,7 +266,7 @@ export default function Detector() {
     ) {
       fetchMedicines(result.disease_name);
     }
-  }, [lang,fetchMedicines,result]);
+  }, [lang, fetchMedicines, result]);
 
   // =========================
   // 🔍 PREDICT
@@ -392,16 +417,6 @@ export default function Detector() {
             </div>
           </div>
 
-          {/* AI BADGE */}
-          <div className="hidden md:flex items-center gap-2 bg-white px-4 py-2 rounded-full shadow-md border border-green-100">
-            <Sparkles
-              size={16}
-              className="text-green-600"
-            />
-            <span className="text-sm font-medium text-gray-700">
-              AI Powered
-            </span>
-          </div>
         </div>
 
         {/* TITLE */}
@@ -417,7 +432,7 @@ export default function Detector() {
           </div>
 
           <p className="mt-4 text-gray-600 text-md leading-relaxed">
-            {uiText.en.subtitle}
+            {uiText[lang].subtitle}
           </p>
         </div>
 
@@ -436,7 +451,7 @@ export default function Detector() {
           </h3>
 
           <p className="mt-2 text-sm sm:text-base text-gray-500">
-            JPG, PNG, JPEG Supported
+            JPG, PNG, JPEG {uiText[lang].supported}
           </p>
 
           <input

@@ -56,13 +56,26 @@ app = Flask(__name__)
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 app.config["MAX_CONTENT_LENGTH"] = MAX_CONTENT_LENGTH
 MONGO_URI = os.getenv("MONGO_URI")
-# Connect MongoDB
-client_db = MongoClient(MONGO_URI)
 
-db = client_db["AgriDB"]
+print("MONGO URI EXISTS:", MONGO_URI is not None)
 
-users = db["users"]
-history = db["history"]
+try:
+    client_db = MongoClient(MONGO_URI, serverSelectionTimeoutMS=5000)
+
+    # Force connection test
+    client_db.admin.command("ping")
+
+    print("✅ MongoDB Connected Successfully")
+
+    db = client_db["AgriDB"]
+
+    users = db["users"]
+    history = db["history"]
+
+except Exception as e:
+    print("❌ MongoDB Connection Error")
+    print(e)
+ 
 init_db()
 
 CORS(app, resources={
