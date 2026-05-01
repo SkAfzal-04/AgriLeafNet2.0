@@ -55,7 +55,10 @@ TYPE_SIZE = (256, 256)
 app = Flask(__name__)
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 app.config["MAX_CONTENT_LENGTH"] = MAX_CONTENT_LENGTH
-client_db = MongoClient(os.getenv("mongodb+srv://diptibhowmik:1234@cluster0.k2debsu.mongodb.net/AgriDB"))
+MONGO_URI = os.getenv("MONGO_URI")
+# Connect MongoDB
+client_db = MongoClient(MONGO_URI)
+
 db = client_db["AgriDB"]
 
 users = db["users"]
@@ -65,7 +68,7 @@ init_db()
 CORS(app, resources={
     r"/*": {"origins": [
         "http://localhost:3000",
-        "https://agrileafnet.vercel.app"
+        "https://agrileafnet1.vercel.app"
     ]}
 })
 
