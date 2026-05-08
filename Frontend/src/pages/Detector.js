@@ -11,14 +11,14 @@ import {
   Camera,
   ShieldCheck,
   Activity,
-  Languages,
-  Sparkles,
+  Languages
 } from "lucide-react";
 
 import {
   translateDisease,
   translateType,
 } from "../utils/disease_translator";
+import toast from "react-hot-toast";
 const BASE_URL = process.env.REACT_APP_API_URL;
 
 export default function Detector() {
@@ -198,7 +198,7 @@ export default function Detector() {
 
       videoRef.current.srcObject = stream;
     } catch {
-      alert("Camera permission denied");
+      toast.error("Camera permission denied");
       setCameraOn(false);
     }
   };
@@ -272,7 +272,7 @@ export default function Detector() {
   // 🔍 PREDICT
   // =========================
   const handleUpload = async () => {
-    if (!file) return alert("Upload image");
+    if (!file) return toast.warning("Please upload an image");
 
     setLoading(true);
     setResult(null);
@@ -285,6 +285,7 @@ export default function Detector() {
         `${BASE_URL}/predict`,
         formData
       );
+      console.log("PREDICTION RESPONSE:", res.data);
 
       if (!res.data.is_leaf) {
         setResult({
@@ -318,7 +319,7 @@ export default function Detector() {
         );
       }
     } catch {
-      alert("Server error");
+      toast.error("Server error. Please try again");
     } finally {
       setLoading(false);
     }

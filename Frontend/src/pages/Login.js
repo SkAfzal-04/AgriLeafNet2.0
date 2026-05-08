@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 const BASE_URL = process.env.REACT_APP_API_URL;
 export default function Login() {
   const navigate = useNavigate();
- 
+
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [otp, setOtp] = useState("");
@@ -12,7 +12,7 @@ export default function Login() {
   const [toast, setToast] = useState("");
   const [otpMessage, setOtpMessage] = useState("");
   const [lang, setLang] = useState("en");
- 
+
   // 🌐 TEXT
   const text = {
     en: {
@@ -55,23 +55,27 @@ export default function Login() {
       error: "সার্ভার ত্রুটি"
     }
   };
- 
+
   const t = text[lang];
- 
+
   // 🔔 Toast
   const showToast = (msg) => {
     setToast(msg);
     setTimeout(() => setToast(""), 4000);
   };
- 
+
   // 📱 SEND OTP
   const sendOtp = async () => {
     try {
-      if (!name || !phone) {
+      if (!name || !phone  ) {
         showToast(t.fill);
         return;
       }
- 
+      if (phone.length < 10){
+        showToast("Phone number must be at least 10 digits");
+        return;
+      }
+
       const res = await fetch(`${BASE_URL}/send-otp`, {
         method: "POST",
         headers: {
@@ -79,26 +83,26 @@ export default function Login() {
         },
         body: JSON.stringify({ phone })
       });
- 
+
       const data = await res.json();
       console.log("OTP RESPONSE:", data);
- 
+
       if (data.otp) {
         setShowOtpInput(true);
- 
+
         // ✅ show both ways
         setOtpMessage(`OTP sent: ${data.otp}`);
         showToast(`OTP sent: ${data.otp}`);
- 
+
       } else {
         showToast("Failed to get OTP");
       }
- 
+
     } catch {
       showToast(t.error);
     }
   };
- 
+
   // 🔐 VERIFY OTP
   const verifyOtp = async () => {
     try {
@@ -106,7 +110,7 @@ export default function Login() {
         showToast(t.enterOtp);
         return;
       }
- 
+
       const res = await fetch(`${BASE_URL}/verify-otp`, {
         method: "POST",
         headers: {
@@ -114,41 +118,41 @@ export default function Login() {
         },
         body: JSON.stringify({ phone, otp })
       });
- 
+
       const data = await res.json();
       console.log("VERIFY:", data);
- 
+
       if (data.user_id) {
         localStorage.setItem("user_id", data.user_id);
         localStorage.setItem("lang", lang);
- 
+
         showToast(t.success);
         navigate("/detector");
- 
+
       } else {
         showToast(data.msg || t.invalid);
       }
- 
+
     } catch {
       showToast("Verification error");
     }
   };
- 
+
   return (
     <div className="flex items-center justify-center min-h-screen bg-green-50">
- 
+
       {toast && (
-  <div className="fixed top-6 right-6 z-[9999] bg-gray-900 text-white px-6 py-4 rounded-xl shadow-2xl text-base font-semibold min-w-[250px]">
-    {toast}
-  </div>
-)}
+        <div className="fixed top-6 right-6 z-[9999] bg-gray-900 text-white px-6 py-4 rounded-xl shadow-2xl text-base font-semibold min-w-[250px]">
+          {toast}
+        </div>
+      )}
       {/* CARD */}
       <motion.div
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
         className="bg-white p-8 rounded-2xl shadow-xl w-[350px]"
       >
- 
+
         {/* LANGUAGE */}
         <select
           value={lang}
@@ -159,12 +163,12 @@ export default function Login() {
           <option value="hi">हिंदी</option>
           <option value="bn">বাংলা</option>
         </select>
- 
+
         {/* TITLE */}
         <h2 className="text-2xl font-bold text-center text-green-700 mb-6">
           {t.title}
         </h2>
- 
+
         {/* NAME */}
         <input
           type="text"
@@ -173,16 +177,25 @@ export default function Login() {
           onChange={(e) => setName(e.target.value)}
           className="w-full border p-2 mb-3 rounded"
         />
- 
+
         {/* PHONE */}
         <input
           type="text"
           placeholder={t.phone}
           value={phone}
-          onChange={(e) => setPhone(e.target.value)}
+          onChange={(e) => {
+            let value = e.target.value;
+
+            if (!/^\d*$/.test(value)) return;
+
+            if (value.length <= 11) {
+              setPhone(value);
+            }
+          }}
+          pattern="^\d{10,11}$"
+          required
           className="w-full border p-2 mb-3 rounded"
         />
- 
         {/* SEND OTP */}
         <button
           onClick={sendOtp}
@@ -190,14 +203,14 @@ export default function Login() {
         >
           {t.send}
         </button>
- 
+
         {/* 🔔 OTP MESSAGE (inside card) */}
         {otpMessage && (
           <p className="text-sm text-gray-600 text-center mb-3">
             {otpMessage}
           </p>
         )}
- 
+
         {/* OTP SECTION */}
         {showOtpInput && (
           <>
@@ -208,7 +221,7 @@ export default function Login() {
               onChange={(e) => setOtp(e.target.value)}
               className="w-full border border-gray-300 p-2 mb-3 rounded focus:ring-2 focus:ring-green-400"
             />
- 
+
             <button
               onClick={verifyOtp}
               className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
@@ -217,7 +230,7 @@ export default function Login() {
             </button>
           </>
         )}
- 
+
       </motion.div>
     </div>
   );
