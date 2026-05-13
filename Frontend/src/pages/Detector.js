@@ -334,16 +334,17 @@ export default function Detector() {
   // 🎨 UI
   // =========================
   return (
-    <section className="min-h-screen bg-gradient-to-br from-[#dff6e7] via-[#ecfff1] to-[#d6f5de] flex justify-center items-center p-5 mt-14 overflow-hidden">
-
+<section className="min-h-screen w-full overflow-x-hidden bg-gradient-to-br from-[#dff6e7] via-[#ecfff1] to-[#d6f5de] flex justify-center items-center px-4 sm:px-5 py-6 mt-14 relative">
+  
       {/* BACKGROUND GLOW */}
-      <div className="absolute top-0 left-0 w-96 h-96 bg-green-300/20 blur-3xl rounded-full"></div>
-      <div className="absolute bottom-0 right-0 w-96 h-96 bg-emerald-400/20 blur-3xl rounded-full"></div>
+<div className="absolute top-0 left-0 w-72 sm:w-96 h-72 sm:h-96 bg-green-300/20 blur-3xl rounded-full overflow-hidden"></div>
 
-      <div className="relative w-full max-w-5xl backdrop-blur-xl bg-white/70 border border-white/50 shadow-[0_20px_60px_rgba(0,0,0,0.12)] rounded-[36px] p-8 md:p-10">
+<div className="absolute bottom-0 right-0 w-72 sm:w-96 h-72 sm:h-96 bg-emerald-400/20 blur-3xl rounded-full overflow-hidden"></div>
+
+      <div className="relative w-full max-w-5xl overflow-hidden backdrop-blur-xl bg-white/70 border border-white/50 shadow-[0_20px_60px_rgba(0,0,0,0.12)] rounded-[28px] sm:rounded-[36px] p-4 sm:p-6 md:p-10">
 
         {/* HEADER */}
-        <div className="flex justify-between items-start">
+        <div className="flex flex-wrap justify-between items-start gap-4">
 
           {/* LANGUAGE */}
           <div className="relative w-fit">
@@ -427,7 +428,7 @@ export default function Detector() {
 
 
 
-            <h1 className="text-4xl p-2 font-black bg-gradient-to-r from-green-700 to-emerald-500 bg-clip-text text-transparent">
+            <h1 className="text-3xl sm:text-4xl p-2 font-black bg-gradient-to-r from-green-700 to-emerald-500 bg-clip-text text-transparent">
               {uiText[lang].title}
             </h1>
           </div>
@@ -482,7 +483,7 @@ export default function Detector() {
             <video
               ref={videoRef}
               autoPlay
-              className="rounded-3xl overflow-hidden shadow-2xl border-4 border-white w-full h-[260px] sm:h-[380px] object-cover"
+              className="rounded-3xl shadow-2xl border-4 border-white w-full max-w-full h-[260px] sm:h-[380px] object-cover overflow-hidden"
             />
 
             {/* BUTTONS */}
@@ -527,7 +528,7 @@ export default function Detector() {
               <img
                 src={preview}
                 alt="preview"
-                className="rounded-3xl shadow-2xl border-4 border-white object-cover w-full max-h-[320px] sm:max-h-[380px]"
+                className="rounded-3xl shadow-2xl border-4 border-white object-cover w-full max-w-full max-h-[320px] sm:max-h-[380px]"
               />
             </div>
 
@@ -576,7 +577,7 @@ export default function Detector() {
               </h2>
             </div>
 
-            <div className="grid md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
 
               <div className="bg-green-50 rounded-2xl p-5 border border-green-100">
                 <p className="text-sm text-gray-500">
@@ -649,7 +650,7 @@ export default function Detector() {
         {!isHealthy(result) &&
           result?.medicines?.length > 0 && (
 
-            <div className="mt-8 w-full mx-auto ">
+            <div className="mt-8 w-full mx-auto overflow-hidden">
 
               <h3 className="text-xl sm:text-2xl font-bold text-black mb-4">
                 {uiText[lang].medicines}

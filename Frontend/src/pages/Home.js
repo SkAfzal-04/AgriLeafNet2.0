@@ -22,61 +22,78 @@ export default function Home() {
 
   // 🔥 Carousel State
   const [index, setIndex] = useState(0);
-  const features = useMemo(() => [
-    {
-      title: "Leaf Detection",
-      desc: "Detect whether the uploaded image is a leaf or not.",
-    },
-    {
-      title: "Disease Classification",
-      desc: "Identify early blight, late blight or healthy leaves.",
-    },
-    {
-      title: "Infection Type",
-      desc: "Detect bacteria, fungi, virus and other infections.",
-    },
-    {
-      title: "Smart Suggestions",
-      desc: "Get fertilizers and spray recommendations instantly.",
-    },
-  ],[]);
+
+  const features = useMemo(
+    () => [
+      {
+        title: "Leaf Detection",
+        desc: "Detect whether the uploaded image is a leaf or not.",
+      },
+      {
+        title: "Disease Classification",
+        desc: "Identify early blight, late blight or healthy leaves.",
+      },
+      {
+        title: "Infection Type",
+        desc: "Detect bacteria, fungi, virus and other infections.",
+      },
+      {
+        title: "Smart Suggestions",
+        desc: "Get fertilizers and spray recommendations instantly.",
+      },
+    ],
+    []
+  );
 
   // 🔄 Auto slide
   useEffect(() => {
     const interval = setInterval(() => {
       setIndex((prev) => (prev + 1) % features.length);
     }, 3500);
+
     return () => clearInterval(interval);
   }, [features]);
 
   return (
-    <div className="w-full">
+    <div className="w-full overflow-x-hidden">
 
       {/* 🌿 HERO SECTION */}
       <div
-        className="h-screen bg-cover bg-center flex flex-col justify-center items-center text-white text-center"
+        className="min-h-screen w-full bg-cover bg-center overflow-hidden flex flex-col justify-center items-center text-white text-center"
         style={{
           backgroundImage:
             "url('https://images.unsplash.com/photo-1500382017468-9049fed747ef')",
         }}
       >
-        <div className="bg-black/50 w-full h-full flex flex-col justify-center items-center px-6">
+        <div className="bg-black/50 w-full min-h-screen flex flex-col justify-center items-center px-4 sm:px-6">
 
           {/* TEXT ANIMATION */}
-          <motion.div variants={container} initial="hidden" animate="show">
-            <h1 className="text-5xl md:text-6xl font-bold flex flex-wrap justify-center">
+          <motion.div
+            variants={container}
+            initial="hidden"
+            animate="show"
+          >
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold flex flex-wrap justify-center">
               {"AgriLeafNet 🌱".split(" ").map((word, i) => (
-                <motion.span key={i} variants={item} className="mr-2">
+                <motion.span
+                  key={i}
+                  variants={item}
+                  className="mr-2"
+                >
                   {word}
                 </motion.span>
               ))}
             </h1>
 
-            <p className="mt-4 text-lg md:text-xl max-w-xl flex flex-wrap justify-center">
+            <p className="mt-4 text-base sm:text-lg md:text-xl max-w-xl flex flex-wrap justify-center px-2">
               {"AI-powered potato leaf disease detection system for smarter farming decisions."
                 .split(" ")
                 .map((word, i) => (
-                  <motion.span key={i} variants={item} className="mr-1">
+                  <motion.span
+                    key={i}
+                    variants={item}
+                    className="mr-1"
+                  >
                     {word}
                   </motion.span>
                 ))}
@@ -86,7 +103,7 @@ export default function Home() {
           {/* BUTTON */}
           <motion.button
             onClick={() => navigate("/detector")}
-            className="group relative mt-10 px-12 py-4 text-lg font-semibold text-white rounded-full border border-green-400 backdrop-blur-md bg-white/10 shadow-xl"
+            className="group relative mt-10 px-8 sm:px-12 py-4 text-base sm:text-lg font-semibold text-white rounded-full border border-green-400 backdrop-blur-md bg-white/10 shadow-xl"
             whileHover={{ scale: 1.06 }}
             whileTap={{ scale: 0.96 }}
           >
@@ -98,7 +115,7 @@ export default function Home() {
 
       {/* 🌿 PROJECT INTRO */}
       <motion.div
-        className="py-16 px-6 bg-gradient-to-b from-white to-green-50"
+        className="py-16 px-4 sm:px-6 bg-gradient-to-b from-white to-green-50 overflow-hidden"
         initial="hidden"
         whileInView="show"
         viewport={{ once: true }}
@@ -106,12 +123,13 @@ export default function Home() {
         <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-center">
 
           {/* LEFT CONTENT */}
-          <motion.div className="relative max-w-lg">
+          <motion.div className="relative max-w-lg mx-auto md:mx-0">
 
             {/* 🌿 Background Shape */}
-            <div className="absolute -top-10 -left-10 w-72 h-72 bg-green-100 rounded-full blur-3xl opacity-40"></div>
+            <div className="absolute -top-10 -left-10 w-60 sm:w-72 h-60 sm:h-72 bg-green-100 rounded-full blur-3xl opacity-40"></div>
 
             <div className="relative">
+
               <motion.h4
                 className="text-green-600 font-medium tracking-wide text-sm"
                 initial={{ opacity: 0, y: 20 }}
@@ -121,43 +139,45 @@ export default function Home() {
               </motion.h4>
 
               <motion.h2
-                className="text-4xl font-semibold text-gray-900 mt-2 leading-snug"
+                className="text-3xl sm:text-4xl font-semibold text-gray-900 mt-2 leading-snug"
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2 }}
               >
-                Smart Agriculture with <span className="text-green-600">AI</span>
+                Smart Agriculture with{" "}
+                <span className="text-green-600">AI</span>
               </motion.h2>
 
               <motion.p
-                className="text-gray-600 mt-4 leading-relaxed text-lg"
+                className="text-gray-600 mt-4 leading-relaxed text-base sm:text-lg"
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4 }}
               >
-                AgriLeafNet helps farmers detect potato leaf diseases using deep learning.
-                It analyzes leaf images to identify disease type and provides practical
-                recommendations like fertilizers and sprays.
+                AgriLeafNet helps farmers detect potato leaf diseases
+                using deep learning. It analyzes leaf images to identify
+                disease type and provides practical recommendations
+                like fertilizers and sprays.
               </motion.p>
-            </div>
 
+            </div>
           </motion.div>
 
-          {/* RIGHT IMAGES (RESTORED ✅) */}
+          {/* RIGHT IMAGE SECTION */}
           <motion.div
             initial={{ opacity: 0, x: 60 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.9 }}
-            className="relative flex justify-center items-center"
+            className="relative flex justify-center items-center w-full overflow-hidden"
           >
 
             {/* 🌿 Background Glow */}
-            <div className="absolute w-[460px] h-[460px] bg-green-100 rounded-full blur-2xl opacity-40"></div>
+            <div className="absolute w-[90vw] max-w-[460px] h-[90vw] max-h-[460px] bg-green-100 rounded-full blur-2xl opacity-40"></div>
 
             {/* BACK IMAGE */}
             <motion.img
               src="https://media.istockphoto.com/id/2229924133/photo/sugar-beet-agricultural-field.webp?a=1&b=1&s=612x612&w=0&k=20&c=_7qrE8qN17HGaU9O-hY2MEhJUBUaIEaaSvdg4xGzRZY="
-              className="w-[460px] h-[320px] object-cover rounded-2xl shadow-lg"
+              className="w-full max-w-[460px] h-[260px] md:h-[320px] object-cover rounded-2xl shadow-lg"
               initial={{ opacity: 0, scale: 0.9 }}
               whileInView={{ opacity: 1, scale: 1 }}
             />
@@ -165,7 +185,23 @@ export default function Home() {
             {/* FRONT IMAGE */}
             <motion.img
               src="https://static.vecteezy.com/system/resources/thumbnails/036/047/553/small_2x/ai-generated-environmental-stewardship-a-tree-being-planted-to-contribute-to-climate-change-mitigation-ai-generated-photo.jpg"
-              className="w-[340px] h-[220px] object-cover rounded-2xl shadow-xl absolute top-20 -left-16 border-4 border-white rotate-[-3deg]"
+              className="
+                w-[70%]
+                max-w-[340px]
+                h-[180px]
+                md:h-[220px]
+                object-cover
+                rounded-2xl
+                shadow-xl
+                absolute
+                top-16
+                md:top-20
+                left-2
+                md:-left-10
+                border-4
+                border-white
+                rotate-[-3deg]
+              "
               initial={{ opacity: 0, scale: 0.8 }}
               whileInView={{ opacity: 1, scale: 1 }}
             />
@@ -174,15 +210,16 @@ export default function Home() {
 
         </div>
       </motion.div>
+
       {/* 🌿 FEATURES CAROUSEL */}
       <div
-        className="py-16 px-6 text-center text-white bg-cover bg-center"
+        className="py-16 px-4 sm:px-6 text-center text-white bg-cover bg-center overflow-hidden"
         style={{
           backgroundImage:
             "url('https://wallpaperaccess.com/full/1598256.jpg')",
         }}
       >
-        <div className="bg-green-900/70 py-16">
+        <div className="bg-green-900/70 py-16 px-4">
 
           <h2 className="text-3xl font-bold mb-10">
             AgriLeafNet Features
@@ -193,43 +230,53 @@ export default function Home() {
             <AnimatePresence mode="wait">
               <motion.div
                 key={index}
-                className="bg-white/20 backdrop-blur-md p-8 rounded-xl shadow-lg"
-                initial={{ opacity: 0, x: 120 }}
+                className="bg-white/20 backdrop-blur-md p-6 sm:p-8 rounded-xl shadow-lg"
+                initial={{ opacity: 0, x: 40 }}
                 animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -120 }}
+                exit={{ opacity: 0, x: -40 }}
+                transition={{ duration: 0.4 }}
               >
+
                 <div className="text-4xl font-bold text-green-300 mb-4">
                   0{index + 1}
                 </div>
 
-                <h3 className="text-2xl font-semibold">
+                <h3 className="text-xl sm:text-2xl font-semibold">
                   {features[index].title}
                 </h3>
 
-                <p className="mt-3 text-gray-200">
+                <p className="mt-3 text-gray-200 text-sm sm:text-base">
                   {features[index].desc}
                 </p>
+
               </motion.div>
             </AnimatePresence>
 
-            <div className="flex justify-between items-center mt-6">
+            {/* CONTROLS */}
+            <div className="flex justify-between items-center mt-6 gap-4">
 
               <button
                 onClick={() =>
-                  setIndex((index - 1 + features.length) % features.length)
+                  setIndex(
+                    (index - 1 + features.length) % features.length
+                  )
                 }
-                className="bg-green-700 px-4 py-2 rounded-lg"
+                className="bg-green-700 hover:bg-green-800 transition px-4 py-2 rounded-lg"
               >
                 ←
               </button>
 
+              {/* DOTS */}
               <div className="flex gap-2">
                 {features.map((_, i) => (
                   <div
                     key={i}
                     onClick={() => setIndex(i)}
-                    className={`w-3 h-3 rounded-full cursor-pointer ${i === index ? "bg-green-400" : "bg-white/50"
-                      }`}
+                    className={`w-3 h-3 rounded-full cursor-pointer transition ${
+                      i === index
+                        ? "bg-green-400"
+                        : "bg-white/50"
+                    }`}
                   />
                 ))}
               </div>
@@ -238,7 +285,7 @@ export default function Home() {
                 onClick={() =>
                   setIndex((index + 1) % features.length)
                 }
-                className="bg-green-700 px-4 py-2 rounded-lg"
+                className="bg-green-700 hover:bg-green-800 transition px-4 py-2 rounded-lg"
               >
                 →
               </button>
@@ -250,7 +297,7 @@ export default function Home() {
       </div>
 
       {/* 🌿 FOOTER */}
-      <div className="text-center py-4 text-gray-600">
+      <div className="text-center py-4 text-gray-600 text-sm sm:text-base">
         © 2026 AgriLeafNet
       </div>
 

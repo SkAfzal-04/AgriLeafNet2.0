@@ -204,20 +204,20 @@ export default function Chatbot() {
       {/* Chat Window */}
       {open && (
         <motion.div
-          className="fixed bottom-20 right-6 w-[420px] bg-white rounded-xl shadow-2xl z-50 flex flex-col"
+          className="fixed bottom-20 right-6 sm:right-2 w-[85vw] sm:w-[420px] max-w-[420px] h-[80vh] sm:h-auto bg-white rounded-2xl shadow-2xl z-50 flex flex-col overflow-hidden"
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
         >
           {/* Header */}
-          <div className="bg-green-600 text-white p-3 rounded-t-xl flex justify-between items-center">
+          <div className="bg-green-600 text-white p-3 rounded-t-2xl flex flex-wrap justify-between items-center gap-3">
             <span>Agri Assistant 🌱</span>
  
-            <div className="flex items-center gap-2">
+            <div className="flex flex-wrap items-center gap-2 justify-end">
  
               <select
                 value={lang}
                 onChange={(e) => setLang(e.target.value)}
-                className="text-black text-sm rounded px-2 py-1"
+                className="text-black text-xs sm:text-sm rounded px-2 py-1 max-w-[110px]"
               >
                 <option value="en">English</option>
                 <option value="hi">हिंदी</option>
@@ -250,11 +250,11 @@ export default function Chatbot() {
           </div>
  
           {/* Messages */}
-          <div className="p-3 h-[400px] overflow-y-auto space-y-2">
+          <div className="p-3 flex-1 min-h-[300px] max-h-[60vh] overflow-y-auto space-y-2">
             {messages.map((msg, i) => (
               <div
                 key={i}
-                className={`p-2 rounded-lg text-sm max-w-[75%] ${
+                className={`p-2 sm:p-3 rounded-lg text-xs sm:text-sm break-words max-w-[85%] sm:max-w-[75%] ${
                   msg.sender === "user"
                     ? "bg-green-100 ml-auto"
                     : "bg-gray-100"
@@ -270,10 +270,10 @@ export default function Chatbot() {
           </div>
  
           {/* Input */}
-          <div className="flex items-center border-t p-2 gap-2">
+          <div className="flex items-center border-t p-2 gap-2 flex-wrap sm:flex-nowrap">
             <input
               type="text"
-              className="flex-1 p-2 outline-none"
+              className="flex-1 min-w-0 p-2 text-sm sm:text-base outline-none"
               placeholder="Type or speak..."
               value={input}
               onChange={(e) => setInput(e.target.value)}
@@ -287,7 +287,7 @@ export default function Chatbot() {
                   startListening();
                 }
               }}
-              className={`w-12 h-12 rounded-full flex items-center justify-center ${
+              className={`w-10 h-10 sm:w-12 sm:h-12 flex-shrink-0 rounded-full flex items-center justify-center ${
                 listening
                   ? "bg-red-500 animate-pulse"
                   : "bg-green-600 hover:bg-green-700"
@@ -298,7 +298,7 @@ export default function Chatbot() {
  
             <button
               onClick={sendMessage}
-              className="bg-green-600 text-white px-4 py-2 rounded-lg"
+              className=" bg-green-600 text-white px-3 sm:px-4 py-2 rounded-lg text-sm sm:text-base flex-shrink-0"
             >
               Send
             </button>
